@@ -319,6 +319,12 @@
       color: rgba(255,255,255,0.55);
       line-height: 1.6;
     }
+    .redirect-text {
+      margin-top: 14px;
+      font-size: clamp(13px, 3.5vw, 14px);
+      color: rgba(255,255,255,0.3);
+    }
+    #countdown { color: var(--gold); font-weight: 700; }
 
     /* Trust */
     .trust {
@@ -426,8 +432,9 @@
 
     <div class="success" id="success-area">
       <span class="success-icon">🎉</span>
-      <div class="success-title">Arizangiz qabul qilindi!</div>
-      <p class="success-text">Tez orada mutaxassisimiz siz bilan bog'lanadi.</p>
+      <div class="success-title">Ma'lumotlaringiz qabul qilindi!</div>
+      <p class="success-text">Sizga tez fursatda aloqaga chiqamiz.</p>
+      <p class="redirect-text" id="redirect-text">Telegram kanalimizga o'tkazilmoqda... <span id="countdown">5</span></p>
     </div>
 
     <div class="trust">
@@ -503,6 +510,18 @@
     setTimeout(function() {
       document.getElementById('form-area').style.display    = 'none';
       document.getElementById('success-area').style.display = 'block';
+
+      // 5 soniyali sanash va Telegramga yo'naltirish
+      var sec = 5;
+      var countEl = document.getElementById('countdown');
+      var timer = setInterval(function() {
+        sec--;
+        countEl.textContent = sec;
+        if (sec <= 0) {
+          clearInterval(timer);
+          window.location.href = 'https://t.me/taskin_gilamyuvish';
+        }
+      }, 1000);
     }, 600);
   }
 
