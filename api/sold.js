@@ -93,6 +93,8 @@ module.exports = async function handler(req, res) {
     const phonesField = contactData?.custom_fields_values?.find(f => f.field_code === 'PHONE');
     if (phonesField) phone = phonesField.values?.[0]?.value || '';
 
+    console.log('[sold.js] Lid narxi (UZS):', price, '→ USD:', Math.round(price / 12000));
+
     // Meta CAPI Purchase event
     await sendMetaEvent({
       data: [{
