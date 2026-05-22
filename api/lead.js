@@ -30,8 +30,14 @@ async function findContactByPhone(phone, subdomain, token) {
   const url = `https://${subdomain}.amocrm.ru/api/v4/contacts?query=${encodeURIComponent(phone)}`;
   const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
   if (!res.ok) return null;
-  const data = await res.json();
-  return data?._embedded?.contacts?.[0] || null;
+  const text = await res.text();
+  if (!text || text.trim() === '') return null;
+  try {
+    const data = JSON.parse(text);
+    return data?._embedded?.contacts?.[0] || null;
+  } catch (e) {
+    return null;
+  }
 }
 
 async function createContact(name, phone, fbp, fbc, subdomain, token) {
