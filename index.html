@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Taskin Cleaning Service</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --navy: #071235;
+      --blue-mid: #0D2060;
+      --blue: #1B3A8C;
+      --teal: #009EA8;
+      --gold: #F0B900;
+      --white: #ffffff;
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: 'Open Sans', sans-serif;
+      background: var(--navy);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 15% 10%, rgba(0,158,168,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 85% 90%, rgba(27,58,140,0.35) 0%, transparent 60%),
+        linear-gradient(160deg, #071235 0%, #0D2060 55%, #071235 100%);
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: -120px; right: -120px;
+      width: 420px; height: 420px;
+      border: 1.5px solid rgba(240,185,0,0.1);
+      border-radius: 50%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .ring2 {
+      position: fixed;
+      bottom: -80px; left: -80px;
+      width: 280px; height: 280px;
+      border: 1.5px solid rgba(0,158,168,0.12);
+      border-radius: 50%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 20px 40px;
+    }
+
+    /* Brand */
+    .brand {
+      text-align: center;
+      margin-bottom: 36px;
+      animation: fadeDown 0.65s ease both;
+    }
+    .brand-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(36px, 8vw, 58px);
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: 6px;
+      line-height: 1;
+    }
+    .brand-sub {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: clamp(13px, 2.5vw, 15px);
+      font-weight: 600;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .brand-line {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 10px auto 0;
+    }
+
+    /* Card */
+    .card {
+      width: 100%;
+      max-width: 540px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 24px;
+      padding: 44px 40px 40px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      animation: fadeUp 0.75s ease 0.15s both;
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(240,185,0,0.1);
+      border: 1px solid rgba(240,185,0,0.25);
+      border-radius: 50px;
+      padding: 6px 16px 6px 12px;
+      margin-bottom: 24px;
+    }
+    .badge-dot {
+      width: 8px; height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: blink 2s infinite;
+    }
+    .badge-txt {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    /* Headline */
+    .headline {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(22px, 5vw, 30px);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.35;
+      margin-bottom: 6px;
+    }
+    .headline .hl { color: var(--gold); text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 2px; }
+
+    .note {
+      font-size: clamp(13px, 2.5vw, 15px);
+      color: rgba(255,255,255,0.42);
+      font-style: italic;
+      margin-bottom: 24px;
+    }
+
+    /* Guarantee */
+    .guarantee {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(0,158,168,0.1);
+      border: 1px solid rgba(0,158,168,0.22);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 28px;
+    }
+    .guarantee-icon {
+      width: 44px; height: 44px;
+      flex-shrink: 0;
+      background: rgba(0,158,168,0.18);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .guarantee-icon svg { width: 22px; height: 22px; fill: var(--teal); }
+    .guarantee-text {
+      font-size: clamp(15px, 3vw, 17px);
+      color: rgba(255,255,255,0.85);
+      line-height: 1.5;
+    }
+    .guarantee-text strong { color: #2DDFC0; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 2px; }
+
+    /* Desc */
+    .desc {
+      font-size: clamp(15px, 3vw, 17px);
+      color: rgba(255,255,255,0.6);
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(240,185,0,0.2), transparent);
+      margin-bottom: 28px;
+    }
+
+    /* Form */
+    .form-group { margin-bottom: 20px; }
+
+    .form-label {
+      display: block;
+      font-size: clamp(13px, 2.5vw, 14px);
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 9px;
+    }
+
+    .form-input {
+      width: 100%;
+      background: rgba(255,255,255,0.07);
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 16px 20px;
+      font-size: clamp(16px, 3.5vw, 19px);
+      font-family: 'Open Sans', sans-serif;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+    }
+    .form-input::placeholder { color: rgba(255,255,255,0.22); }
+    .form-input:focus {
+      border-color: rgba(240,185,0,0.5);
+      background: rgba(255,255,255,0.09);
+    }
+
+    /* Error state */
+    .form-input.error {
+      border-color: #FF4545;
+      background: rgba(255,69,69,0.06);
+    }
+    .error-msg {
+      display: none;
+      font-size: 13px;
+      color: #FF6B6B;
+      margin-top: 6px;
+      font-weight: 600;
+    }
+    .form-input.error + .error-msg { display: block; }
+
+    /* Global alert */
+    .alert-box {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,60,60,0.12);
+      border: 1.5px solid rgba(255,60,60,0.4);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 18px;
+      animation: shake 0.4s ease;
+    }
+    .alert-box.show { display: flex; }
+    .alert-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .alert-text {
+      font-size: clamp(14px, 3vw, 15px);
+      color: #FF8080;
+      font-weight: 600;
+    }
+
+    /* Button */
+    .btn {
+      width: 100%;
+      margin-top: 6px;
+      background: #F0B900;
+      border: none;
+      border-radius: 14px;
+      padding: 18px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(16px, 3.5vw, 19px);
+      font-weight: 400;
+      color: var(--navy);
+      cursor: pointer;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      box-shadow: 0 0 18px 4px rgba(240,185,0,0.55), 0 4px 20px rgba(240,185,0,0.4);
+    }
+    .btn:hover {
+      transform: translateY(-3px);
+      background: #FFD020;
+      box-shadow: 0 0 32px 8px rgba(240,185,0,0.7), 0 8px 28px rgba(240,185,0,0.5);
+    }
+    .btn:active { transform: translateY(0); box-shadow: 0 0 12px 3px rgba(240,185,0,0.4); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* Success */
+    .success {
+      display: none;
+      text-align: center;
+      padding: 32px 10px;
+      animation: fadeUp 0.4s ease both;
+    }
+    .success-icon { font-size: 56px; margin-bottom: 16px; display: block; }
+    .success-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(20px, 4vw, 24px);
+      font-weight: 800;
+      color: #2DDFC0;
+      margin-bottom: 10px;
+    }
+    .success-text {
+      font-size: clamp(15px, 3vw, 17px);
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+    }
+
+    /* Trust */
+    .trust {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 30px;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: clamp(12px, 2.5vw, 13px);
+      color: rgba(255,255,255,0.35);
+      font-weight: 500;
+    }
+    .trust-dot {
+      width: 5px; height: 5px;
+      background: rgba(240,185,0,0.45);
+      border-radius: 50%;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%       { transform: translateX(-6px); }
+      40%       { transform: translateX(6px); }
+      60%       { transform: translateX(-4px); }
+      80%       { transform: translateX(4px); }
+    }
+
+    @media (max-width: 500px) {
+      .card { padding: 30px 22px 26px; border-radius: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="ring2"></div>
+
+<div class="page">
+
+  <div class="card">
+
+    <div class="badge">
+      <div class="badge-dot"></div>
+      <span class="badge-txt">Maxsus taklif</span>
+    </div>
+
+    <div class="headline">
+      Gilamingizni <span class="hl">24 soat</span> ichida<br>
+      yuvib berolmasak — <span class="hl">50% chegirma!</span>
+    </div>
+    <div class="note">(Olingan kunni hisobga olmaganda)</div>
+
+    <div class="guarantee">
+      <div class="guarantee-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L3 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-9-4zm-1 13.5l-3.5-3.5 1.41-1.41L11 12.67l5.09-5.08 1.41 1.41L11 15.5z"/>
+        </svg>
+      </div>
+      <div class="guarantee-text">
+        Har bir yuvilgan gilamga <strong>30 kun kafolat</strong> beramiz
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <p class="desc">
+      Batafsil ma'lumot olish uchun ismingiz va telefon raqamingizni qoldiring.
+      Mutaxassislarimiz siz bilan bog'lanishadi.
+    </p>
+
+    <div id="form-area">
+
+      <!-- Global alert -->
+      <div class="alert-box" id="alert-box">
+        <span class="alert-icon">⚠️</span>
+        <span class="alert-text">Iltimos, barcha maydonlarni to'ldiring!</span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="name">Ismingiz</label>
+        <input class="form-input" type="text" id="name" placeholder="Nodira" autocomplete="given-name" />
+        <div class="error-msg">Ismingizni kiriting</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="phone">Telefon raqamingiz</label>
+        <input class="form-input" type="tel" id="phone" placeholder="+998 90 123 45 67" autocomplete="tel" />
+        <div class="error-msg">Telefon raqamingizni kiriting</div>
+      </div>
+
+      <button class="btn" id="submit-btn" onclick="handleSubmit()">Yuborish</button>
+    </div>
+
+    <div class="success" id="success-area">
+      <span class="success-icon">🎉</span>
+      <div class="success-title">Arizangiz qabul qilindi!</div>
+      <p class="success-text">Tez orada mutaxassisimiz siz bilan bog'lanadi.</p>
+    </div>
+
+    <div class="trust">
+      <div class="trust-item"><div class="trust-dot"></div>Tez xizmat</div>
+      <div class="trust-item"><div class="trust-dot"></div>Kafolatlangan sifat</div>
+      <div class="trust-item"><div class="trust-dot"></div>Ishonchli jamoa</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  var alertBox = document.getElementById('alert-box');
+
+  function hideAlert() {
+    alertBox.classList.remove('show');
+  }
+
+  function handleSubmit() {
+    var nameEl  = document.getElementById('name');
+    var phoneEl = document.getElementById('phone');
+    var name    = nameEl.value.trim();
+    var phone   = phoneEl.value.trim();
+    var valid   = true;
+
+    nameEl.classList.remove('error');
+    phoneEl.classList.remove('error');
+    hideAlert();
+
+    if (!name)  { nameEl.classList.add('error');  valid = false; }
+    if (!phone) { phoneEl.classList.add('error'); valid = false; }
+
+    if (!valid) {
+      // Re-trigger shake animation
+      alertBox.classList.remove('show');
+      void alertBox.offsetWidth;
+      alertBox.classList.add('show');
+      alertBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      return;
+    }
+
+    var btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Yuborilmoqda...';
+
+    setTimeout(function() {
+      document.getElementById('form-area').style.display    = 'none';
+      document.getElementById('success-area').style.display = 'block';
+    }, 600);
+  }
+
+  // Hide error + alert when user starts typing
+  document.querySelectorAll('.form-input').forEach(function(el) {
+    el.addEventListener('input', function() {
+      this.classList.remove('error');
+      // Only hide alert if BOTH fields are valid
+      var n = document.getElementById('name').value.trim();
+      var p = document.getElementById('phone').value.trim();
+      if (n && p) hideAlert();
+    });
+  });
+</script>
+
+</body>
+</html>
