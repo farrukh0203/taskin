@@ -4,6 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Taskin Cleaning Service</title>
+
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+    (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1620652492369282');
+    fbq('track', 'PageView');
+    fbq('track', 'ViewContent', { content_name: 'Taskin Cleaning', content_category: 'Cleaning' });
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1620652492369282&ev=PageView&noscript=1"/></noscript>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -426,13 +440,19 @@
 </div>
 
 <script>
-  var alertBox = document.getElementById('alert-box');
+  var alertBox  = document.getElementById('alert-box');
+  var submitted = false;
 
-  function hideAlert() {
-    alertBox.classList.remove('show');
+  function getCookie(name) {
+    var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : '';
   }
 
+  function hideAlert() { alertBox.classList.remove('show'); }
+
   function handleSubmit() {
+    if (submitted) return;
+
     var nameEl  = document.getElementById('name');
     var phoneEl = document.getElementById('phone');
     var name    = nameEl.value.trim();
@@ -447,7 +467,6 @@
     if (!phone) { phoneEl.classList.add('error'); valid = false; }
 
     if (!valid) {
-      // Re-trigger shake animation
       alertBox.classList.remove('show');
       void alertBox.offsetWidth;
       alertBox.classList.add('show');
@@ -455,9 +474,31 @@
       return;
     }
 
+    submitted = true;
     var btn = document.getElementById('submit-btn');
     btn.disabled = true;
     btn.textContent = 'Yuborilmoqda...';
+
+    // Event ID — brauzer va server da bir xil
+    var eventId = 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+
+    // Brauzer Pixel
+    fbq('track', 'Lead', { content_name: 'Taskin Cleaning' }, { eventID: eventId });
+
+    // Server CAPI
+    fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name:       name,
+        phone:      phone,
+        eventId:    eventId,
+        fbp:        getCookie('_fbp'),
+        fbc:        getCookie('_fbc'),
+        userAgent:  navigator.userAgent,
+        sourceUrl:  window.location.href,
+      }),
+    }).catch(function(err) { console.error('CAPI xato:', err); });
 
     setTimeout(function() {
       document.getElementById('form-area').style.display    = 'none';
@@ -465,11 +506,9 @@
     }, 600);
   }
 
-  // Hide error + alert when user starts typing
   document.querySelectorAll('.form-input').forEach(function(el) {
     el.addEventListener('input', function() {
       this.classList.remove('error');
-      // Only hide alert if BOTH fields are valid
       var n = document.getElementById('name').value.trim();
       var p = document.getElementById('phone').value.trim();
       if (n && p) hideAlert();
