@@ -16,7 +16,7 @@ async function sendMetaEvent(payload) {
     body: JSON.stringify(payload),
   });
   const data = await res.json();
-  console.log('[META PURCHASE] Purchase yuborildi:', JSON.stringify(data));
+    console.log('[META QUALIFIEDLEAD] QualifiedLead yuborildi:', JSON.stringify(data));
   return data;
 }
 
@@ -93,25 +93,28 @@ module.exports = async function handler(req, res) {
     const phonesField = contactData?.custom_fields_values?.find(f => f.field_code === 'PHONE');
     if (phonesField) phone = phonesField.values?.[0]?.value || '';
 
-    console.log('[sold.js] Lid narxi (UZS):', price, '→ USD:', Math.round(price / 12000));
+    console.log('[sold.js] Meta ga yuboriladigan ma\'lumotlar:', JSON.stringify({
+      event_id: `sold_${leadId}`,
+      phone_hashed: sha256(phone) || 'BOŠ',
+      fn_hashed: sha256(firstName) || 'BOŠ',
+      fbp: fbp || 'BOŠ',
+      fbc: fbc || 'BOŠ',
+      value: Math.round(price / 12000),
+      currency: 'USD',
+    }));
 
     // Meta CAPI Purchase event
     await sendMetaEvent({
       data: [{
-        event_name: 'Purchase',
+        event_name: 'QualifiedLead',
         event_time: Math.floor(Date.now() / 1000),
-        event_id:   `sold_${leadId}`,          // doimiy — Date.now() YOZILMAYDI
-        event_source_url: process.env.SITE_URL,
-        action_source: 'website',              // 'crm' YOZILMAYDI
+        event_id:   `sold_${leadId}`,
+        action_source: 'system_generated',
         user_data: {
           ph:  sha256(phone),
           fn:  sha256(firstName),
           fbp: fbp || undefined,
           fbc: fbc || undefined,
-        },
-        custom_data: {
-          value:    Math.round(price / 12000), // UZS → USD
-          currency: 'USD',
         },
       }],
     });
